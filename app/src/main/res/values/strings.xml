@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Pick a Place</string>
+    <string name="facebook_app_id">1351115694985872</string>
+    <string name="fb_login_protocol_scheme">fb1351115694985872</string>
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+    <string name="loading">Loading…</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

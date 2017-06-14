@@ -1,0 +1,48 @@
+For facebook registration:
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+Enter keystore password:
+
+*****************  WARNING WARNING WARNING  *****************
+* The integrity of the information stored in your keystore  *
+* has NOT been verified!  In order to verify its integrity, *
+* you must provide your keystore password.                  *
+*****************  WARNING WARNING WARNING  *****************
+
+<the key>
+
+
+For dev firebase registration:
+keytool -exportcert -list -v \
+> -alias androiddebugkey -keystore ~/.android/debug.keystore
+Enter keystore password:
+
+*****************  WARNING WARNING WARNING  *****************
+* The integrity of the information stored in your keystore  *
+* has NOT been verified!  In order to verify its integrity, *
+* you must provide your keystore password.                  *
+*****************  WARNING WARNING WARNING  *****************
+
+Alias name: androiddebugkey
+Creation date: Jun 18, 2015
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Android Debug, O=Android, C=US
+Issuer: CN=Android Debug, O=Android, C=US
+Serial number: 7276566e
+Valid from: Thu Jun 18 15:25:15 EDT 2015 until: Sat Jun 10 15:25:15 EDT 2045
+Certificate fingerprints:
+	 MD5:  <different identifiers>
+	 SHA1: <different identifiers>
+	 SHA256: <different identifiers>
+	 Signature algorithm name: SHA256withRSA
+	 Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+<different identifiers>
+]
+]
