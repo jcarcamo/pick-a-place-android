@@ -14,7 +14,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
@@ -28,10 +27,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -200,6 +195,8 @@ public class LoginActivity extends BaseActivity implements
                     }
             );
             gr.executeAsync();
+            Intent loggedIn = new Intent(LoginActivity.this, FacebookFriendsActivity.class);
+            startActivity(loggedIn);
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
