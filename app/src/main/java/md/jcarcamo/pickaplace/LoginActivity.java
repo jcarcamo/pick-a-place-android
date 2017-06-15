@@ -13,9 +13,14 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -23,6 +28,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import md.jcarcamo.pickaplace.utils.FacebookUser;
+import md.jcarcamo.pickaplace.utils.FriendsGraphResponse;
 
 public class LoginActivity extends BaseActivity implements
     View.OnClickListener {
@@ -35,6 +49,7 @@ public class LoginActivity extends BaseActivity implements
         // [START declare_auth]
         private FirebaseAuth mAuth;
         // [END declare_auth]
+        private String fbUserId;
 
         private CallbackManager mCallbackManager;
 
@@ -58,11 +73,12 @@ public class LoginActivity extends BaseActivity implements
             // Initialize Facebook Login button
             mCallbackManager = CallbackManager.Factory.create();
             LoginButton loginButton = (LoginButton) findViewById(R.id.button_facebook_login);
-            loginButton.setReadPermissions("email", "public_profile");
+            loginButton.setReadPermissions("email", "public_profile", "user_friends");
             loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                    fbUserId = loginResult.getAccessToken().getUserId();
                     handleFacebookAccessToken(loginResult.getAccessToken());
                 }
 
@@ -153,6 +169,37 @@ public class LoginActivity extends BaseActivity implements
 
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
+            AccessToken token = AccessToken.getCurrentAccessToken();
+            /* make the API call */
+            GraphRequest gr = new GraphRequest(
+                    token,
+                    "/me/friends",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            /* handle the result */
+                            Log.d(TAG, "friends:success "+response.getRawResponse());
+                            try {
+                                ObjectMapper om = new ObjectMapper();
+                                FriendsGraphResponse friendsResponse =
+                                        om.readValue(response
+                                                .getRawResponse(), FriendsGraphResponse.class
+                                        );
+                                for (FacebookUser fbUser : friendsResponse.getData()){
+                                    Log.d(TAG, "jsonparse:success:name "+fbUser.getName());
+                                    Log.d(TAG, "jsonparse:success:id "+fbUser.getId());
+                                }
+
+
+                            }catch (IOException ioe){
+                                Log.d(TAG, "jsonparse:IO Exception"+ioe.getMessage());
+                            }
+
+                        }
+                    }
+            );
+            gr.executeAsync();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
