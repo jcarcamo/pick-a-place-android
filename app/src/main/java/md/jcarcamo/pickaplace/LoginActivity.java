@@ -195,7 +195,7 @@ public class LoginActivity extends BaseActivity implements
                     }
             );
             gr.executeAsync();
-            Intent loggedIn = new Intent(LoginActivity.this, FacebookFriendsActivity.class);
+            Intent loggedIn = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(loggedIn);
         } else {
             mStatusTextView.setText(R.string.signed_out);
