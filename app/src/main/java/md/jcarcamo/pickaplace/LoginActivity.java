@@ -36,7 +36,7 @@ import md.jcarcamo.pickaplace.utils.FriendsGraphResponse;
 public class LoginActivity extends BaseActivity implements
     View.OnClickListener {
 
-        private static final String TAG = "FacebookLogin";
+        private static final String TAG = "LoginActivity";
 
         private TextView mStatusTextView;
         private TextView mDetailTextView;
@@ -164,37 +164,6 @@ public class LoginActivity extends BaseActivity implements
 
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
-            AccessToken token = AccessToken.getCurrentAccessToken();
-            /* make the API call */
-            GraphRequest gr = new GraphRequest(
-                    token,
-                    "/me/friends",
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            /* handle the result */
-                            Log.d(TAG, "friends:success "+response.getRawResponse());
-                            try {
-                                ObjectMapper om = new ObjectMapper();
-                                FriendsGraphResponse friendsResponse =
-                                        om.readValue(response
-                                                .getRawResponse(), FriendsGraphResponse.class
-                                        );
-                                for (FacebookUser fbUser : friendsResponse.getData()){
-                                    Log.d(TAG, "jsonparse:success:name "+fbUser.getName());
-                                    Log.d(TAG, "jsonparse:success:id "+fbUser.getId());
-                                }
-
-
-                            }catch (IOException ioe){
-                                Log.d(TAG, "jsonparse:IO Exception"+ioe.getMessage());
-                            }
-
-                        }
-                    }
-            );
-            gr.executeAsync();
             Intent loggedIn = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(loggedIn);
         } else {

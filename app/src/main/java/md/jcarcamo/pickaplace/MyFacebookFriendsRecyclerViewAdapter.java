@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import md.jcarcamo.pickaplace.FacebookFriendsFragment.OnListFragmentInteractionListener;
 import md.jcarcamo.pickaplace.dummy.DummyContent.DummyItem;
+import md.jcarcamo.pickaplace.utils.FacebookUser;
 
 import java.util.List;
 
@@ -18,11 +19,11 @@ import java.util.List;
  */
 public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFacebookFriendsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<FacebookUser> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyFacebookFriendsRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MyFacebookFriendsRecyclerViewAdapter(List<FacebookUser> friends, OnListFragmentInteractionListener listener) {
+        mValues = friends;
         mListener = listener;
     }
 
@@ -36,8 +37,8 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        //holder.mIdView.setText(mValues.get(position).getId());
+        holder.mContentView.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +59,14 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        //public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public FacebookUser mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+            //mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

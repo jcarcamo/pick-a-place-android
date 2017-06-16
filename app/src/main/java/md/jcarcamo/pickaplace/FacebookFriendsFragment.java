@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import md.jcarcamo.pickaplace.dummy.DummyContent;
 import md.jcarcamo.pickaplace.dummy.DummyContent.DummyItem;
+import md.jcarcamo.pickaplace.utils.FacebookUser;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
  */
 public class FacebookFriendsFragment extends Fragment {
 
+    List<FacebookUser> friends;
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -34,6 +36,7 @@ public class FacebookFriendsFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public FacebookFriendsFragment() {
+        friends = HomeActivity.friends;
     }
 
     // TODO: Customize parameter initialization
@@ -69,7 +72,7 @@ public class FacebookFriendsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFacebookFriendsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyFacebookFriendsRecyclerViewAdapter(friends, mListener));
         }
         return view;
     }
@@ -104,6 +107,6 @@ public class FacebookFriendsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(FacebookUser friends);
     }
 }
