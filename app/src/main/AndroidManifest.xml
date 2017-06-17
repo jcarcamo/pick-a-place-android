@@ -13,14 +13,19 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB9XIftWKE1Yv-9pA2f8YCZeU2gYv2Ygbk" />
+
         <uses-permission android:name="android.permission.INTERNET" />
 
-        <activity android:name=".LoginActivity" android:theme="@style/AppTheme.NoActionBar" >
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
@@ -35,8 +40,13 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreatePollActivity"
+            android:label="@string/title_activity_create_poll"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -3,11 +3,17 @@ package md.jcarcamo.pickaplace.utils;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
+import md.jcarcamo.pickaplace.CreatePollFragment;
 import md.jcarcamo.pickaplace.FacebookFriendsFragment;
 
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
@@ -28,8 +34,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            FacebookFriendsFragment fbFriendsList = new FacebookFriendsFragment();
-            return fbFriendsList;
+            CreatePollFragment pollFragment = CreatePollFragment.newInstance();
+            return pollFragment;
         }
         return null;
     }
@@ -46,5 +52,22 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return NumbOfTabs;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }

@@ -19,8 +19,12 @@ import java.util.List;
  */
 public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFacebookFriendsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<FacebookUser> mValues;
+    private List<FacebookUser> mValues;
     private final OnListFragmentInteractionListener mListener;
+
+    public void updateValues(List<FacebookUser> values){
+        mValues = values;
+    }
 
     public MyFacebookFriendsRecyclerViewAdapter(List<FacebookUser> friends, OnListFragmentInteractionListener listener) {
         mValues = friends;
@@ -46,7 +50,7 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onFriendClick(holder.mItem);
                 }
             }
         });

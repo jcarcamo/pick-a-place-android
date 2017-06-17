@@ -25,18 +25,24 @@ import java.util.List;
 public class FacebookFriendsFragment extends Fragment {
 
     List<FacebookUser> friends;
+    MyFacebookFriendsRecyclerViewAdapter mAdapter;
+
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    public void notifyDataSetChanged(List<FacebookUser> friends){
+        mAdapter.updateValues(friends);
+        mAdapter.notifyDataSetChanged();
+    }
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public FacebookFriendsFragment() {
-        friends = HomeActivity.friends;
+        friends = CreatePollFragment.friends;
     }
 
     // TODO: Customize parameter initialization
@@ -72,7 +78,8 @@ public class FacebookFriendsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFacebookFriendsRecyclerViewAdapter(friends, mListener));
+            mAdapter = new MyFacebookFriendsRecyclerViewAdapter(friends, mListener);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
@@ -107,6 +114,6 @@ public class FacebookFriendsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(FacebookUser friends);
+        void onFriendClick(FacebookUser friend);
     }
 }
