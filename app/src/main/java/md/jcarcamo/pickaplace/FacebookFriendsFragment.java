@@ -37,6 +37,10 @@ public class FacebookFriendsFragment extends Fragment {
         mAdapter.updateValues(friends);
         mAdapter.notifyDataSetChanged();
     }
+
+    public void clearSelected(){
+        mAdapter.clearSelected();
+    }
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).

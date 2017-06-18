@@ -34,6 +34,10 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
         selectedItems = new SparseBooleanArray();
     }
 
+    public void clearSelected(){
+        selectedItems.clear();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

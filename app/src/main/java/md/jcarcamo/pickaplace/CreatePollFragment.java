@@ -26,6 +26,9 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -61,6 +64,8 @@ import static android.app.Activity.RESULT_OK;
 public class CreatePollFragment extends Fragment {
     private static final String TAG = "CreatePollFragment";
     public static final int GET_LOCATION_REQUEST_CODE = 1;
+    private FirebaseUser user;
+
     public static List<FacebookUser> friends;
     public List<FacebookUser> selectedFriends;
 
@@ -158,6 +163,7 @@ public class CreatePollFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_poll, container, false);
+        user = FirebaseAuth.getInstance().getCurrentUser();
         ButterKnife.bind(this, view);
         return view;
     }
@@ -241,6 +247,10 @@ public class CreatePollFragment extends Fragment {
         if(!selectedFriends.isEmpty()) {
             if(pl != null){
                 DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+                FacebookUser me = new FacebookUser();
+                me.setId(AccessToken.getCurrentAccessToken().getUserId());
+                me.setName(user.getDisplayName());
+                selectedFriends.add(me);
                 Poll newPoll = new Poll(pl.getLatLng().latitude,
                         pl.getLatLng().longitude, fmt.print(DateTime.now()), selectedFriends);
                 String key = topRef.push().getKey();
@@ -249,6 +259,9 @@ public class CreatePollFragment extends Fragment {
                 Intent pollIntent = new Intent(getContext(), PollActivity.class);
                 pollIntent.putExtra("pollId",key);
                 startActivity(pollIntent);
+                FacebookFriendsFragment friendsFragment = (FacebookFriendsFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment);
+                friendsFragment.clearSelected();
+                selectedFriends.clear();
 
             }else{
                 Toast.makeText(getContext(), "Please select a starting location", Toast.LENGTH_LONG).show();
