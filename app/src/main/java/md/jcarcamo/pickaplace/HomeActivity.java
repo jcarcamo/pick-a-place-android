@@ -2,8 +2,6 @@ package md.jcarcamo.pickaplace;
 
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +12,6 @@ import android.view.MenuItem;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.List;
 
 import md.jcarcamo.pickaplace.utils.FacebookUser;
 import md.jcarcamo.pickaplace.utils.ViewPagerAdapter;

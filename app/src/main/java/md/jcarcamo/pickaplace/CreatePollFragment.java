@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -24,6 +26,12 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +42,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import md.jcarcamo.pickaplace.utils.FacebookUser;
 import md.jcarcamo.pickaplace.utils.FriendsGraphResponse;
+import md.jcarcamo.pickaplace.utils.Poll;
 import md.jcarcamo.pickaplace.utils.ViewPagerAdapter;
 
+import static android.R.attr.duration;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -50,12 +60,14 @@ import static android.app.Activity.RESULT_OK;
  */
 public class CreatePollFragment extends Fragment {
     private static final String TAG = "CreatePollFragment";
-
     public static final int GET_LOCATION_REQUEST_CODE = 1;
-
-
     public static List<FacebookUser> friends;
     public List<FacebookUser> selectedFriends;
+
+    private DatabaseReference topRef;
+    private Place pl;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -104,6 +116,17 @@ public class CreatePollFragment extends Fragment {
                 }
         );
         gr.executeAsync();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        topRef = FirebaseDatabase.getInstance().getReference("poll");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
     }
 
     public CreatePollFragment() {
@@ -183,7 +206,7 @@ public class CreatePollFragment extends Fragment {
             case(GET_LOCATION_REQUEST_CODE):{
                 switch (resultCode){
                     case(RESULT_OK):{
-                        Place pl = PlaceAutocomplete.getPlace(getActivity(), data);
+                        pl = PlaceAutocomplete.getPlace(getActivity(), data);
                         locationTextView.setText(pl.getName());
                         Log.i(TAG, "onActivityResult: " + pl.getName() + "/" + pl.getAddress());
                         break;
@@ -215,6 +238,24 @@ public class CreatePollFragment extends Fragment {
     @OnClick(R.id.startPollButton)
     public void startPoll(){
         Log.d(TAG,"Here I'll save to firebase");
+        if(!selectedFriends.isEmpty()) {
+            if(pl != null){
+                DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+                Poll newPoll = new Poll(pl.getLatLng().latitude,
+                        pl.getLatLng().longitude, fmt.print(DateTime.now()), selectedFriends);
+                String key = topRef.push().getKey();
+                topRef.child(key).setValue(newPoll);
+
+                Intent pollIntent = new Intent(getContext(), PollActivity.class);
+                pollIntent.putExtra("pollId",key);
+                startActivity(pollIntent);
+
+            }else{
+                Toast.makeText(getContext(), "Please select a starting location", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(getContext(), "Please select at least 1 friend", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onFriendClick(FacebookUser friend) {

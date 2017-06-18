@@ -44,8 +44,8 @@
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CreatePollActivity"
-            android:label="@string/title_activity_create_poll"
+            android:name=".PollActivity"
+            android:label="@string/title_activity_poll"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -1,6 +1,7 @@
 package md.jcarcamo.pickaplace;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFacebookFriendsRecyclerViewAdapter.ViewHolder> {
 
+    private SparseBooleanArray selectedItems;
     private List<FacebookUser> mValues;
     private final OnListFragmentInteractionListener mListener;
 
@@ -29,6 +31,7 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
     public MyFacebookFriendsRecyclerViewAdapter(List<FacebookUser> friends, OnListFragmentInteractionListener listener) {
         mValues = friends;
         mListener = listener;
+        selectedItems = new SparseBooleanArray();
     }
 
     @Override
@@ -43,6 +46,7 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
         holder.mItem = mValues.get(position);
         //holder.mIdView.setText(mValues.get(position).getId());
         holder.mContentView.setText(mValues.get(position).getName());
+        holder.mView.setSelected(selectedItems.get(position, false));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +55,15 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onFriendClick(holder.mItem);
+                }
+                // Save the selected positions to the SparseBooleanArray
+                if (selectedItems.get(holder.getAdapterPosition(), false)) {
+                    selectedItems.delete(holder.getAdapterPosition());
+                    holder.mView.setSelected(false);
+                }
+                else {
+                    selectedItems.put(holder.getAdapterPosition(), true);
+                    holder.mView.setSelected(true);
                 }
             }
         });
