@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import md.jcarcamo.pickaplace.CreatePollFragment;
 import md.jcarcamo.pickaplace.FacebookFriendsFragment;
+import md.jcarcamo.pickaplace.PollInvitesFragment;
 
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -36,6 +37,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             CreatePollFragment pollFragment = CreatePollFragment.newInstance();
             return pollFragment;
+        } else if (position == 1) {
+            PollInvitesFragment pollInvitesFragment = new PollInvitesFragment();
+            return  pollInvitesFragment;
         }
         return null;
     }

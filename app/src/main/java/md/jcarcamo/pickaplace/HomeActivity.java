@@ -13,19 +13,21 @@ import android.view.MenuItem;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
+import md.jcarcamo.pickaplace.dummy.DummyContent;
 import md.jcarcamo.pickaplace.utils.FacebookUser;
 import md.jcarcamo.pickaplace.utils.ViewPagerAdapter;
 
 public class HomeActivity extends BaseActivity implements
         CreatePollFragment.OnFragmentInteractionListener,
-        FacebookFriendsFragment.OnListFragmentInteractionListener {
+        FacebookFriendsFragment.OnListFragmentInteractionListener,
+        PollInvitesFragment.OnListFragmentInteractionListener{
     private static final String TAG = "HomeActivity";
 
     private FirebaseAuth mAuth;
     ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
-    CharSequence Titles[] = {"Pick a Place"};
-    int Numboftabs = 1;
+    CharSequence Titles[] = {"Pick a Place", "My Invites"};
+    int Numboftabs = 2;
 
 
 
@@ -90,5 +92,10 @@ public class HomeActivity extends BaseActivity implements
 
     public void onComplete(){
         Log.d(TAG,"Friends Loaded");
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        Log.d(TAG,"Invites handler");
     }
 }
