@@ -10,7 +10,7 @@ import md.jcarcamo.pickaplace.CreatePollFragment;
 import md.jcarcamo.pickaplace.FacebookFriendsFragment;
 import md.jcarcamo.pickaplace.PollInvitesFragment;
 
-
+// Initial code from https://www.numetriclabz.com/android-tabs-with-fragments-and-viewpager-tutorial/
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -58,6 +58,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return NumbOfTabs;
     }
 
+    // As seen in https://stackoverflow.com/questions/25116800/access-viewpager-fragment-from-host-activity-returns-fragment-as-null
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);

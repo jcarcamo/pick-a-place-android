@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class RestaurantsList {
-    private List<Restaurant> restaurants;
+    /*private List<Restaurant> restaurants;
 
     public RestaurantsList(){
 
@@ -22,5 +22,5 @@ public class RestaurantsList {
 
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
-    }
+    }*/
 }

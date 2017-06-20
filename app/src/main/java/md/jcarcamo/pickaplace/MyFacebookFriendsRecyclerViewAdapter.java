@@ -66,7 +66,7 @@ public class MyFacebookFriendsRecyclerViewAdapter extends RecyclerView.Adapter<M
         holder.mContentView.setText(mValues.get(position).getName());
         holder.mView.setSelected(selectedItems.get(position, false));
         holder.getFriendImage();
-
+        // Adapted from in https://stackoverflow.com/questions/29983848/how-to-highlight-the-selected-item-of-recycler-view
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -50,7 +50,7 @@ public class WinnerActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.openMap);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,15 +68,15 @@ public class WinnerActivity extends BaseActivity {
                         intent.setComponent(new ComponentName(
                                 "com.google.android.apps.maps",
                                 "com.google.android.maps.MapsActivity"));
-                        getApplicationContext().startActivity(intent);
+                        WinnerActivity.this.startActivity(intent);
                     } catch (ActivityNotFoundException e) {
 
                         try {
-                            getApplicationContext().startActivity(new Intent(
+                            WinnerActivity.this.startActivity(new Intent(
                                     Intent.ACTION_VIEW,
                                     Uri.parse("market://details?id=com.google.android.apps.maps")));
                         } catch (android.content.ActivityNotFoundException anfe) {
-                            getApplicationContext().startActivity(new Intent(
+                            WinnerActivity.this.startActivity(new Intent(
                                     Intent.ACTION_VIEW,
                                     Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.apps.maps")));
                         }

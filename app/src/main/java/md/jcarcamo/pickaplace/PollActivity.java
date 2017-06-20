@@ -49,11 +49,11 @@ public class PollActivity extends BaseActivity  {
     private boolean isPollFinished = false;
     private boolean persistPosition = false;
 
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    @BindView(R.id.votePositive)
+    FloatingActionButton votePositive;
 
-    @BindView(R.id.fab2)
-    FloatingActionButton fab2;
+    @BindView(R.id.voteNegative)
+    FloatingActionButton voteNegative;
 
     @BindView(R.id.placeNameTextView)
     TextView placeName;
@@ -84,9 +84,7 @@ public class PollActivity extends BaseActivity  {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("id")) {
-                   persistPosition = true;
-                }
+
             }
 
             @Override
@@ -183,7 +181,7 @@ public class PollActivity extends BaseActivity  {
         hideProgressDialog();
     }
 
-    @OnClick(R.id.fab)
+    @OnClick(R.id.votePositive)
     public void positiveClick(){
         if(position < restaurants.size()-1){
             showProgressDialog();
@@ -191,17 +189,15 @@ public class PollActivity extends BaseActivity  {
             if(!isPollFinished)
                 voteRef.child(Integer.toString((int) position)).child("votes").setValue(currentRestaurant.getVotes()+1);
             position++;
-            //if(position <= restaurants.size()-1) {
-                Restaurant nextRestaurant = restaurants.get((int) position);
-                updateUI(nextRestaurant);
-            //}
+            Restaurant nextRestaurant = restaurants.get((int) position);
+            updateUI(nextRestaurant);
         }else {
-            Snackbar.make(fab, "Wating until poll is finished", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(votePositive, "Wating until poll is finished", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Action", null).show();
         }
     }
 
-    @OnClick(R.id.fab2)
+    @OnClick(R.id.voteNegative)
     public void negativeClick(){
         if(position < restaurants.size()-1){
             showProgressDialog();
@@ -210,16 +206,15 @@ public class PollActivity extends BaseActivity  {
             updateUI(nextRestaurant);
 
         } else {
-            Snackbar.make(fab2, "Wating until poll is finished", Snackbar.LENGTH_LONG)
+            Snackbar.make(voteNegative, "Wating until poll is finished", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
     }
 
     @Override
     public void onBackPressed(){
-        if(persistPosition) {
-            userRef.child("position").setValue(position);
-        }
+        userRef.child("position").setValue(position);
+
         super.onBackPressed();
         this.finish();
     }

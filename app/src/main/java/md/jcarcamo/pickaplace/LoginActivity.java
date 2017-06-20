@@ -13,13 +13,11 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
+
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -28,18 +26,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.IOException;
-
-import md.jcarcamo.pickaplace.utils.FacebookUser;
-import md.jcarcamo.pickaplace.utils.FriendsGraphResponse;
-
-public class LoginActivity extends BaseActivity implements
-    View.OnClickListener {
+// Modified from the firebase github
+// https://github.com/firebase/quickstart-android/blob/master/auth/app/src/minSdkIcs/java/com/google/firebase/quickstart/auth/FacebookLoginActivity.java
+public class LoginActivity extends BaseActivity  {
 
         private static final String TAG = "LoginActivity";
 
         private TextView mStatusTextView;
-        private TextView mDetailTextView;
 
         // [START declare_auth]
         private FirebaseAuth mAuth;
@@ -56,8 +49,6 @@ public class LoginActivity extends BaseActivity implements
 
             // Views
             mStatusTextView = (TextView) findViewById(R.id.status);
-            mDetailTextView = (TextView) findViewById(R.id.detail);
-            findViewById(R.id.button_facebook_signout).setOnClickListener(this);
 
             // [START initialize_auth]
             // Initialize Firebase Auth
@@ -160,26 +151,14 @@ public class LoginActivity extends BaseActivity implements
         hideProgressDialog();
         if (user != null) {
             mStatusTextView.setText(getString(R.string.facebook_status_fmt, user.getDisplayName()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
-            findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
             Intent loggedIn = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(loggedIn);
         } else {
             mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
-            findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.button_facebook_signout) {
-            signOut();
-        }
-    }
 }

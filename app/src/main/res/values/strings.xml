@@ -6,13 +6,19 @@
     <string name="facebook_title_text">Facebook Login</string>
     <string name="loading">Loading…</string>
     <string name="firebase_status_fmt">Firebase User: %s</string>
-    <string name="desc_firebase_lockup">Firebase logo and name</string>
-    <string name="signed_out">Signed Out</string>
+    <string name="desc_pickaplace_lockup">Pick a place logo and place</string>
+    <string name="signed_out">Pick a Place will help you to coordinate with all your friends where to eat.
+        \n Please login with facebook so you can easily find your friends
+    </string>
     <string name="sign_out">Sign Out</string>
     <string name="title_activity_poll">Picking a Place</string>
     <string name="location_name">Start location</string>
+    <string name="poll_filler">Sometimes technology fails, a little patience always helps.
+        \n If you don\'t see anything in the next 30 seconds please go back and search your
+        invites.
+    </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_winner">WinnerActivity</string>
+    <string name="title_activity_winner">Winner</string>
 </resources>

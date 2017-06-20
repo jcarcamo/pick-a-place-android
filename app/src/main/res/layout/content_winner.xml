@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
     tools:context="md.jcarcamo.pickaplace.WinnerActivity"
     tools:showIn="@layout/activity_winner">
-
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
     <TextView
         android:id="@+id/placeNameTextViewW"
         android:layout_width="0dp"
@@ -19,6 +19,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Some Place"
+        style="@style/AppTheme.TitleText"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageViewW"
@@ -59,7 +60,8 @@
             android:id="@+id/placeSummaryTextViewW"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at malesuada urna. Mauris quis pellentesque ipsum. Cras ullamcorper a arcu volutpat gravida. Donec et feugiat lacus. Vivamus hendrerit, est vitae pharetra rhoncus, magna ipsum aliquam sapien, et tristique dui metus in elit. Quisque ullamcorper leo ex. Nunc quis risus justo. Nulla finibus commodo eros porttitor ultrices. Aliquam suscipit, enim eu porta auctor, ex eros ultrices eros, quis laoreet tellus nisl sed massa. Nunc laoreet nisl lectus. Sed gravida tellus porttitor leo sollicitudin sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at malesuada urna. Mauris quis pellentesque ipsum. Cras ullamcorper a arcu volutpat gravida. Donec et feugiat lacus. Vivamus hendrerit, est vitae pharetra rhoncus, magna ipsum aliquam sapien, et tristique dui metus in elit. Quisque ullamcorper leo ex. Nunc quis risus justo. Nulla finibus commodo eros porttitor ultrices. Aliquam suscipit, enim eu porta auctor, ex eros ultrices eros, quis laoreet tellus nisl sed massa. Nunc laoreet nisl lectus. Sed gravida tellus porttitor leo sollicitudin sagittis."
+            style="@style/AppTheme.TextDetail"
+            android:text="@string/poll_filler"
             android:textAlignment="viewStart" />
     </ScrollView>
 

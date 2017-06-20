@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import md.jcarcamo.pickaplace.utils.DividerItemDecoration;
 import md.jcarcamo.pickaplace.utils.PollInvites;
+import md.jcarcamo.pickaplace.utils.VerticalSpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +69,11 @@ public class PollInvitesFragment extends Fragment {
                             PollInvites pollInvite = new PollInvites();
                             pollInvite.setTitle((String) mapObj.get("title"));
                             pollInvite.setId((String) mapObj.get("id"));
-                            pollInvite.setPosition((Long) mapObj.get("position"));
+                            if(mapObj.get("position") != null) {
+                                pollInvite.setPosition((Long) mapObj.get("position"));
+                            }else{
+                                pollInvite.setPosition(0);
+                            }
                             if (!pollInvites.contains(pollInvite))
                                 pollInvites.add(pollInvite);
                         }
@@ -129,6 +135,9 @@ public class PollInvitesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
+            recyclerView.addItemDecoration(
+                    new DividerItemDecoration(getActivity(), R.drawable.divider));
             mAdapter = new MyPollInvitesRecyclerViewAdapter(pollInvites, mListener);
             recyclerView.setAdapter(mAdapter);
         }

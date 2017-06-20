@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
+// Taken from the firebase github
+// https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/google/firebase/quickstart/auth/BaseActivity.java
 public class BaseActivity extends AppCompatActivity {
 
     @VisibleForTesting
