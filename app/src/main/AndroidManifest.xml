@@ -12,7 +12,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB9XIftWKE1Yv-9pA2f8YCZeU2gYv2Ygbk" />
@@ -46,6 +45,10 @@
         <activity
             android:name=".PollActivity"
             android:label="@string/title_activity_poll"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WinnerActivity"
+            android:label="@string/title_activity_winner"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

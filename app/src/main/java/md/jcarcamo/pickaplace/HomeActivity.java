@@ -1,6 +1,8 @@
 package md.jcarcamo.pickaplace;
 
-import android.net.Uri;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -13,8 +15,8 @@ import android.view.MenuItem;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
-import md.jcarcamo.pickaplace.dummy.DummyContent;
 import md.jcarcamo.pickaplace.utils.FacebookUser;
+import md.jcarcamo.pickaplace.utils.PollInvites;
 import md.jcarcamo.pickaplace.utils.ViewPagerAdapter;
 
 public class HomeActivity extends BaseActivity implements
@@ -22,6 +24,7 @@ public class HomeActivity extends BaseActivity implements
         FacebookFriendsFragment.OnListFragmentInteractionListener,
         PollInvitesFragment.OnListFragmentInteractionListener{
     private static final String TAG = "HomeActivity";
+    public static final int START_POLL_REQUEST_CODE = 1;
 
     private FirebaseAuth mAuth;
     ViewPager viewPager;
@@ -76,11 +79,13 @@ public class HomeActivity extends BaseActivity implements
 
     }
 
-
-
     @Override
-    public void onCreatePollInteraction(Uri uri) {
+    public void onCreatePollInteraction() {
         Log.d(TAG,"Fragment Inception ");
+        FacebookFriendsFragment friendsFragment = (FacebookFriendsFragment) pagerAdapter
+                .getRegisteredFragment(viewPager.getCurrentItem()).getChildFragmentManager()
+                .findFragmentById(R.id.fragment);
+        friendsFragment.notifyDataSetChanged(CreatePollFragment.friends);
     }
 
     @Override
@@ -90,12 +95,30 @@ public class HomeActivity extends BaseActivity implements
         pollFragment.onFriendClick(friend);
     }
 
-    public void onComplete(){
-        Log.d(TAG,"Friends Loaded");
+    @Override
+    public void openPoll(PollInvites item) {
+        Log.d(TAG,"Invites handler");
+        Intent pollIntent = new Intent(this, PollActivity.class);
+        pollIntent.putExtra("pollId",item.getId());
+        pollIntent.putExtra("position", item.getPosition());
+        startActivityForResult(pollIntent,START_POLL_REQUEST_CODE);
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Log.d(TAG,"Invites handler");
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (START_POLL_REQUEST_CODE): {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null && data.hasExtra("WINNER")) {
+                        Parcelable par = data.getParcelableExtra("WINNER");
+                        Intent result = new Intent(this, WinnerActivity.class);
+                        result.putExtra("WINNER", par);
+                        startActivity(result);
+                    }
+                }
+                break;
+            }
+        }
     }
 }

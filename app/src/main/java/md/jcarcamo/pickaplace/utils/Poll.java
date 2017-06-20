@@ -9,7 +9,9 @@ import java.util.List;
  */
 
 public class Poll {
+    private String title;
     private boolean started = false;
+    private boolean finished = false;
     private double latitude;
     private double longitude;
     private String timestamp;
@@ -19,11 +21,28 @@ public class Poll {
 
     }
 
-    public Poll(double latitude, double longitude, String timestamp, List<FacebookUser> invited) {
+    public Poll(String title, double latitude, double longitude, String timestamp, List<FacebookUser> invited) {
+        this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
         this.invited = invited;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public boolean isStarted() {

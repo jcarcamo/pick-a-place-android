@@ -5,14 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="md.jcarcamo.pickaplace.PollActivity"
-    tools:showIn="@layout/activity_poll"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
-
+    tools:context="md.jcarcamo.pickaplace.WinnerActivity"
+    tools:showIn="@layout/activity_winner">
 
     <TextView
-        android:id="@+id/placeNameTextView"
+        android:id="@+id/placeNameTextViewW"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -24,7 +21,7 @@
         android:text="Some Place"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewW"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -32,7 +29,7 @@
         app:layout_constraintVertical_bias="0.509" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewW"
         android:layout_width="0dp"
         android:layout_height="244dp"
         android:layout_marginBottom="8dp"
@@ -59,7 +56,7 @@
         android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/placeSummaryTextView"
+            android:id="@+id/placeSummaryTextViewW"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at malesuada urna. Mauris quis pellentesque ipsum. Cras ullamcorper a arcu volutpat gravida. Donec et feugiat lacus. Vivamus hendrerit, est vitae pharetra rhoncus, magna ipsum aliquam sapien, et tristique dui metus in elit. Quisque ullamcorper leo ex. Nunc quis risus justo. Nulla finibus commodo eros porttitor ultrices. Aliquam suscipit, enim eu porta auctor, ex eros ultrices eros, quis laoreet tellus nisl sed massa. Nunc laoreet nisl lectus. Sed gravida tellus porttitor leo sollicitudin sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at malesuada urna. Mauris quis pellentesque ipsum. Cras ullamcorper a arcu volutpat gravida. Donec et feugiat lacus. Vivamus hendrerit, est vitae pharetra rhoncus, magna ipsum aliquam sapien, et tristique dui metus in elit. Quisque ullamcorper leo ex. Nunc quis risus justo. Nulla finibus commodo eros porttitor ultrices. Aliquam suscipit, enim eu porta auctor, ex eros ultrices eros, quis laoreet tellus nisl sed massa. Nunc laoreet nisl lectus. Sed gravida tellus porttitor leo sollicitudin sagittis."

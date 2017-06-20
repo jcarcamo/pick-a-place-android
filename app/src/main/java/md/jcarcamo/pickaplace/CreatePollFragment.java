@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,6 +79,9 @@ public class CreatePollFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    @BindView(R.id.titleText)
+    EditText title;
+
     @BindView(R.id.location)
     TextView locationTextView;
 
@@ -83,7 +89,7 @@ public class CreatePollFragment extends Fragment {
     TextView selectedFriendsTv;
 
     @BindView(R.id.startPollButton)
-    Button startPoll;
+    FloatingActionButton startPoll;
 
     protected void getFriends(){
         AccessToken token = AccessToken.getCurrentAccessToken();
@@ -168,13 +174,6 @@ public class CreatePollFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onCreatePollInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -251,16 +250,20 @@ public class CreatePollFragment extends Fragment {
                 me.setId(AccessToken.getCurrentAccessToken().getUserId());
                 me.setName(user.getDisplayName());
                 selectedFriends.add(me);
-                Poll newPoll = new Poll(pl.getLatLng().latitude,
+                Poll newPoll = new Poll(title.getText().toString(), pl.getLatLng().latitude,
                         pl.getLatLng().longitude, fmt.print(DateTime.now()), selectedFriends);
                 String key = topRef.push().getKey();
                 topRef.child(key).setValue(newPoll);
 
                 Intent pollIntent = new Intent(getContext(), PollActivity.class);
                 pollIntent.putExtra("pollId",key);
-                startActivity(pollIntent);
+                pollIntent.putExtra("position",0);
+                startActivityForResult(pollIntent,HomeActivity.START_POLL_REQUEST_CODE);
                 FacebookFriendsFragment friendsFragment = (FacebookFriendsFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment);
+                mListener.onCreatePollInteraction();
                 friendsFragment.clearSelected();
+                title.setText("");
+                selectedFriendsTv.setText("Select Some Friends");
                 selectedFriends.clear();
 
             }else{
@@ -315,8 +318,7 @@ public class CreatePollFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onCreatePollInteraction(Uri uri);
-        public abstract void onComplete();
+        void onCreatePollInteraction();
     }
 
 }

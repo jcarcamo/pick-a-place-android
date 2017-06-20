@@ -13,24 +13,26 @@ import java.util.List;
  */
 
 public class FirebasePoll {
+    private String title;
     private List<FacebookUser> invited;
     private double latitude;
     private double longitude;
     private List<Restaurant> restaurants;
     private boolean started;
-    private DateTime timestamp;
+    private boolean finished;
+    private String timestamp;
+    private int winner;
 
     public FirebasePoll(){
 
     }
-    public FirebasePoll(List<FacebookUser> invited, double latitude, double longitude,
-                        List<Restaurant> restaurants, boolean started, DateTime timestamp) {
-        this.invited = invited;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.restaurants = restaurants;
-        this.started = started;
-        this.timestamp = timestamp;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<FacebookUser> getInvited() {
@@ -73,11 +75,27 @@ public class FirebasePoll {
         this.started = started;
     }
 
-    public DateTime getTimestamp() {
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(DateTime timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+
+    public void setWinner(int winner) {
+        this.winner = winner;
     }
 }

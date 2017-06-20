@@ -10,10 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import md.jcarcamo.pickaplace.dummy.DummyContent;
-import md.jcarcamo.pickaplace.dummy.DummyContent.DummyItem;
+import com.facebook.AccessToken;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import md.jcarcamo.pickaplace.utils.PollInvites;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -23,19 +32,56 @@ import java.util.List;
  */
 public class PollInvitesFragment extends Fragment {
 
+    Query userPollsRef;
+
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private MyPollInvitesRecyclerViewAdapter mAdapter;
+
+    public static List<PollInvites> pollInvites;
     private OnListFragmentInteractionListener mListener;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PollInvitesFragment() {
+        pollInvites = new ArrayList<>();
+        userPollsRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(AccessToken.getCurrentAccessToken().getUserId())
+                .child("polls").limitToLast(30);
+        userPollsRef.addValueEventListener(valueEventListener);
     }
 
+    ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> objectMap = (HashMap<String,Object>) dataSnapshot.getValue();
+                if(objectMap != null) {
+                    for (Object obj : objectMap.values()) {
+                        if (obj instanceof Map) {
+                            Map<String, Object> mapObj = (Map<String, Object>) obj;
+                            PollInvites pollInvite = new PollInvites();
+                            pollInvite.setTitle((String) mapObj.get("title"));
+                            pollInvite.setId((String) mapObj.get("id"));
+                            pollInvite.setPosition((Long) mapObj.get("position"));
+                            if (!pollInvites.contains(pollInvite))
+                                pollInvites.add(pollInvite);
+                        }
+                    }
+                    mAdapter.updateValues(pollInvites);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static PollInvitesFragment newInstance(int columnCount) {
@@ -56,6 +102,20 @@ public class PollInvitesFragment extends Fragment {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        pollInvites.clear();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        userPollsRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(AccessToken.getCurrentAccessToken().getUserId())
+                .child("polls").limitToLast(30);
+        userPollsRef.addValueEventListener(valueEventListener);
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pollinvites_list, container, false);
@@ -69,7 +129,8 @@ public class PollInvitesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPollInvitesRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            mAdapter = new MyPollInvitesRecyclerViewAdapter(pollInvites, mListener);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
@@ -104,6 +165,6 @@ public class PollInvitesFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void openPoll(PollInvites item);
     }
 }
